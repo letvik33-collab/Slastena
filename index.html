@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сластёна — кондитерский магазин</title>
+<meta name="description" content="Сластёна — сладости, шоколад, конфеты и мармелад. Рынок Алем, бутик 26.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        pinkBrand: {
+          50:'#fff8f6',100:'#fdeee9',200:'#fadbd8',300:'#f6c3c6',400:'#efa1ac',
+          500:'#e5798f',600:'#cf5575',700:'#ac4160',800:'#8c3650',900:'#5f2536'
+        },
+        cream: { 50:'#fffdf8', 100:'#fff7ea', 200:'#fbecd3' }
+      },
+      fontFamily: {
+        sans:['Montserrat','sans-serif'],
+        serif:['"Cormorant Garamond"','serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+  @media (min-width: 768px) { html { scroll-padding-top: 4rem; } }
+  body {
+    background-color: #fff7ed;
+    background-image:
+      radial-gradient(ellipse at 8% 18%, rgba(250,190,194,.78), transparent 31rem),
+      radial-gradient(ellipse at 92% 42%, rgba(247,226,194,.48), transparent 33rem),
+      radial-gradient(ellipse at 42% 92%, rgba(239,161,172,.4), transparent 35rem),
+      radial-gradient(rgba(172,65,96,.16) 1px, transparent 1px);
+    background-size: auto, auto, auto, 20px 20px;
+    background-attachment: fixed;
+    color: #2d1b22;
+  }
+  @keyframes fade { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: none; } }
+  .hero-bg {
+    isolation: isolate;
+  }
+  .hero-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 15% 20%, #fadbd8 0, transparent 40%),
+      radial-gradient(circle at 85% 70%, #fbecd3 0, transparent 45%),
+      linear-gradient(160deg, #fff8f6, #fff7ea);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .badge-pop { animation: pop .3s ease; }
+  @keyframes pop { 50% { transform: scale(1.4);} }
+  input:focus, select:focus, textarea:focus { outline: none; }
+
+  /* Небольшие движения делают витрину живой, не отвлекая от покупок. */
+  :root { --ease-sweet: cubic-bezier(.2,.75,.25,1); }
+  .hero-bg > i { z-index: 1; animation: float-sweet 5s ease-in-out infinite; filter: drop-shadow(0 8px 12px rgba(172,65,96,.12)); }
+  .hero-bg > i:nth-of-type(2) { animation-delay: -2.2s; }
+  .hero-bg > i:nth-of-type(3) { animation-delay: -3.7s; }
+  @keyframes float-sweet { 0%,100% { transform: translate3d(0,0,0) rotate(var(--sweet-rotate, 0deg)); } 50% { transform: translate3d(0,-12px,0) rotate(calc(var(--sweet-rotate, 0deg) + 5deg)); } }
+  .hero-bg > i:first-child { --sweet-rotate: -15deg; }
+  .hero-bg > i:nth-of-type(2) { --sweet-rotate: 12deg; }
+  .hero-bg > i:nth-of-type(3) { --sweet-rotate: 0deg; }
+  #home h1 { animation: title-pop .7s .08s var(--ease-sweet) both; }
+  @keyframes title-pop { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+  #catalog #grid > article { animation: card-in .45s var(--ease-sweet) both; transition: transform .25s var(--ease-sweet), box-shadow .25s ease, border-color .25s ease; }
+  #catalog #grid > article:nth-child(4n + 2) { animation-delay: .04s; }
+  #catalog #grid > article:nth-child(4n + 3) { animation-delay: .08s; }
+  #catalog #grid > article:nth-child(4n + 4) { animation-delay: .12s; }
+  @keyframes card-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+  #catalog #grid > article:hover { transform: translateY(-5px); border-color: #efa1ac; box-shadow: 0 18px 36px -18px rgba(172,65,96,.55); }
+  #catalog #grid article img { transition: transform .55s var(--ease-sweet); }
+  #catalog #grid article:hover img { transform: scale(1.06); }
+  #catalog.section-arrive > div { animation: catalog-arrive .7s var(--ease-sweet) both; }
+  @keyframes catalog-arrive { from { opacity: .55; transform: translateY(24px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  button, a { transition: color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s var(--ease-sweet); }
+  #filters button { box-shadow: 0 3px 9px rgba(172,65,96,.12); }
+  #filters button:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(172,65,96,.18); }
+  .cart-badge { transition: transform .25s var(--ease-sweet); }
+  [data-ctl] { transition: transform .22s var(--ease-sweet); transform-origin: center; }
+  [data-ctl].is-changing { animation: control-bounce .32s var(--ease-sweet); }
+  @keyframes control-bounce { 45% { transform: scale(1.08); } }
+  #cart-list > div { animation: cart-row-in .3s var(--ease-sweet) both; transform-origin: top; }
+  @keyframes cart-row-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+  #cart-total-wrap { animation: info-in .3s var(--ease-sweet) both; }
+  #cart-total.total-pop { animation: total-pop .32s var(--ease-sweet); }
+  @keyframes total-pop { 45% { transform: scale(1.08); color: #cf5575; } }
+  #added-toast { opacity: 0; visibility: hidden; transform: translate(-50%, 24px) scale(.94); transition: opacity .35s ease, transform .45s var(--ease-sweet), visibility .35s; }
+  #added-toast.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); }
+  #added-toast .toast-progress { animation: toast-progress 3.6s linear forwards; }
+  @keyframes toast-progress { to { transform: scaleX(0); transform-origin: left; } }
+  #catalog #grid article.just-added { transform: translateY(-4px) scale(1.01); border-color: #cf5575; box-shadow: 0 0 0 4px rgba(229,121,143,.25), 0 18px 36px -18px rgba(172,65,96,.6); }
+  #catalog #grid article.just-added img { transform: scale(1.1) rotate(-2deg); }
+  #pickup-info, #delivery-block { animation: info-in .3s var(--ease-sweet) both; }
+  @keyframes info-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body class="font-sans antialiased pb-24 md:pb-0">
+
+<!-- Верхняя навигация (десктоп) -->
+<header class="hidden md:block sticky top-0 z-40 bg-cream-50/90 backdrop-blur border-b border-pinkBrand-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#home" class="font-serif text-3xl font-semibold text-pinkBrand-700">Сластёна</a>
+    <nav class="flex items-center gap-8 text-sm font-medium tracking-wide">
+      <a data-nav="home" href="#home" class="nav-link hover:text-pinkBrand-600 transition">Главная</a>
+      <a data-nav="catalog" href="#catalog" class="nav-link hover:text-pinkBrand-600 transition">Каталог</a>
+      <a data-nav="order" href="#order" class="nav-link hover:text-pinkBrand-600 transition relative">
+        Предзаказ
+        <span class="cart-badge hidden absolute -top-3 -right-5 bg-pinkBrand-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 items-center justify-center"></span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= СЕКЦИЯ 1: ГЛАВНАЯ ================= -->
+<section id="home">
+  <div class="hero-bg min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-4rem)] flex items-center justify-center px-5 py-12 relative overflow-hidden">
+    <i class="fa-solid fa-cookie-bite absolute top-10 left-6 text-pinkBrand-200 text-6xl rotate-[-15deg]"></i>
+    <i class="fa-solid fa-candy-cane absolute bottom-16 right-8 text-pinkBrand-200 text-7xl rotate-12"></i>
+    <i class="fa-solid fa-ice-cream absolute top-24 right-10 text-cream-200 text-5xl"></i>
+
+    <div class="max-w-2xl w-full text-center relative z-[1]">
+      <p class="text-xs md:text-sm uppercase tracking-[0.4em] text-pinkBrand-600 mb-4">Кондитерский бутик</p>
+      <h1 class="font-serif text-6xl sm:text-7xl md:text-8xl font-semibold text-pinkBrand-800 leading-none">Сластёна</h1>
+      <div class="flex items-center justify-center gap-3 my-6 text-pinkBrand-400">
+        <span class="h-px w-16 bg-pinkBrand-300"></span><i class="fa-solid fa-heart text-sm"></i><span class="h-px w-16 bg-pinkBrand-300"></span>
+      </div>
+      <p class="font-serif italic text-xl md:text-2xl text-pinkBrand-900/80 mb-10">Любимые сладости — шоколад, конфеты, батончики и мармелад</p>
+
+      <div class="grid gap-4 sm:grid-cols-2 text-left mb-10">
+        <div class="bg-white rounded-3xl p-5 shadow-[0_10px_40px_-15px_rgba(172,65,96,.35)] border border-pinkBrand-100 flex gap-4 items-start">
+          <div class="w-12 h-12 shrink-0 rounded-2xl bg-pinkBrand-100 text-pinkBrand-600 flex items-center justify-center text-lg"><i class="fa-regular fa-clock"></i></div>
+          <div>
+            <p class="text-[11px] uppercase tracking-widest text-pinkBrand-500 font-semibold mb-1">График работы</p>
+            <p class="font-semibold">Вт–Вск 8:30 – 17:00</p>
+            <p class="text-sm text-pinkBrand-700">Понедельник выходной</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-3xl p-5 shadow-[0_10px_40px_-15px_rgba(172,65,96,.35)] border border-pinkBrand-100 flex gap-4 items-start">
+          <div class="w-12 h-12 shrink-0 rounded-2xl bg-pinkBrand-100 text-pinkBrand-600 flex items-center justify-center text-lg"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <p class="text-[11px] uppercase tracking-widest text-pinkBrand-500 font-semibold mb-1">Адрес</p>
+            <p class="font-semibold">Складская, рынок Алем 7а, бутик 26</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="#catalog" class="inline-flex items-center gap-3 bg-pinkBrand-600 hover:bg-pinkBrand-700 text-white font-semibold tracking-wide px-9 py-4 rounded-full shadow-lg shadow-pinkBrand-300 transition active:scale-95">
+        Перейти в каталог <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= СЕКЦИЯ 2: КАТАЛОГ ================= -->
+<section id="catalog">
+  <div class="max-w-6xl mx-auto px-3 sm:px-6 pt-8 pb-10">
+    <div class="text-center mb-6">
+      <p class="text-xs uppercase tracking-[0.35em] text-pinkBrand-500 mb-2">Наш ассортимент</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-semibold text-pinkBrand-800">Каталог</h2>
+    </div>
+
+    <div class="sticky top-0 md:top-16 z-30 bg-transparent py-3 -mx-3 px-3 sm:mx-0 sm:px-0">
+      <div class="relative max-w-xl mx-auto">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-pinkBrand-400"></i>
+        <input id="search" type="search" placeholder="Поиск: Snickers, Milka, мармелад…" autocomplete="off"
+          class="w-full bg-white border border-pinkBrand-200 focus:border-pinkBrand-500 rounded-full py-3 pl-11 pr-4 text-sm shadow-sm transition">
+      </div>
+      <div id="filters" class="flex gap-2 overflow-x-auto no-scrollbar mt-3 sm:justify-center pb-1"></div>
+    </div>
+
+    <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 mt-4"></div>
+    <div id="empty" class="hidden text-center py-16 text-pinkBrand-700">
+      <i class="fa-regular fa-face-sad-tear text-4xl mb-3"></i>
+      <p class="font-serif text-2xl">Ничего не найдено</p>
+      <p class="text-sm">Попробуйте изменить запрос или категорию</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= СЕКЦИЯ 3: ПРЕДЗАКАЗ ================= -->
+<section id="order">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-8 pb-10">
+    <div class="text-center mb-8">
+      <p class="text-xs uppercase tracking-[0.35em] text-pinkBrand-500 mb-2">Оформление</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-semibold text-pinkBrand-800">Предзаказ</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-6">
+      <!-- Корзина -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-3xl border border-pinkBrand-100 shadow-[0_10px_40px_-15px_rgba(172,65,96,.3)] p-5">
+          <h3 class="font-serif text-2xl font-semibold text-pinkBrand-700 mb-3"><i class="fa-solid fa-basket-shopping text-lg mr-2"></i>Ваш выбор</h3>
+          <div id="cart-list" class="divide-y divide-pinkBrand-100"></div>
+          <div id="cart-empty" class="hidden text-center py-8">
+            <p class="text-pinkBrand-700 mb-4">Корзина пока пуста</p>
+            <a href="#catalog" class="inline-block bg-pinkBrand-100 text-pinkBrand-700 font-semibold px-6 py-2.5 rounded-full hover:bg-pinkBrand-200 transition">В каталог</a>
+          </div>
+          <div id="cart-total-wrap" class="hidden mt-4 pt-4 border-t-2 border-dashed border-pinkBrand-200 flex justify-between items-baseline">
+            <span class="text-sm uppercase tracking-widest text-pinkBrand-600 font-semibold">Итого</span>
+            <span id="cart-total" class="font-serif text-3xl font-bold text-pinkBrand-800"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Форма -->
+      <form id="order-form" class="lg:col-span-3 bg-white rounded-3xl border border-pinkBrand-100 shadow-[0_10px_40px_-15px_rgba(172,65,96,.3)] p-5 sm:p-7 space-y-6" novalidate>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-pinkBrand-600 font-semibold mb-3">Способ получения</p>
+          <div class="grid grid-cols-2 gap-2 p-1 bg-pinkBrand-50 rounded-full border border-pinkBrand-100">
+            <button type="button" data-method="pickup" class="method-btn rounded-full py-3 text-sm font-semibold transition"><i class="fa-solid fa-store mr-2"></i>Самовывоз</button>
+            <button type="button" data-method="delivery" class="method-btn rounded-full py-3 text-sm font-semibold transition"><i class="fa-solid fa-truck-fast mr-2"></i>Доставка</button>
+          </div>
+        </div>
+
+        <div id="pickup-info" class="rounded-2xl bg-cream-100 border border-cream-200 p-4 text-sm flex gap-3">
+          <i class="fa-solid fa-location-dot text-pinkBrand-500 mt-0.5"></i>
+          <span>Заберите заказ в бутике: <b>Складская, рынок Алем 7а, бутик 26</b>.<br>Вт–Вск 8:30 – 17:00.</span>
+        </div>
+
+        <div id="delivery-block" class="hidden space-y-3">
+          <div>
+            <label for="address" class="block text-xs uppercase tracking-widest text-pinkBrand-600 font-semibold mb-2">Адрес доставки</label>
+            <input id="address" type="text" placeholder="Улица, дом, квартира / подъезд"
+              class="w-full border border-pinkBrand-200 focus:border-pinkBrand-500 rounded-2xl px-4 py-3 text-sm transition">
+          </div>
+          <div class="rounded-2xl bg-pinkBrand-50 border border-pinkBrand-300 p-4 text-sm flex gap-3">
+            <i class="fa-solid fa-triangle-exclamation text-pinkBrand-600 mt-0.5"></i>
+            <span><b>Важно:</b> продавец выезжает после закрытия бутика, поэтому доставка осуществляется <b>строго в интервале с 18:00 до 19:00</b>.</span>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="date" class="block text-xs uppercase tracking-widest text-pinkBrand-600 font-semibold mb-2">Дата</label>
+            <input id="date" type="date" class="w-full border border-pinkBrand-200 focus:border-pinkBrand-500 rounded-2xl px-4 py-3 text-sm transition bg-white">
+          </div>
+          <div>
+            <label for="time" class="block text-xs uppercase tracking-widest text-pinkBrand-600 font-semibold mb-2">Время</label>
+            <select id="time" class="w-full border border-pinkBrand-200 focus:border-pinkBrand-500 rounded-2xl px-4 py-3 text-sm transition bg-white"></select>
+          </div>
+        </div>
+        <p class="text-xs text-pinkBrand-700 -mt-3">Понедельник — выходной, выберите другой день.</p>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="name" class="block text-xs uppercase tracking-widest text-pinkBrand-600 font-semibold mb-2">Имя</label>
+            <input id="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"
+              class="w-full border border-pinkBrand-200 focus:border-pinkBrand-500 rounded-2xl px-4 py-3 text-sm transition">
+          </div>
+          <div>
+            <label for="phone" class="block text-xs uppercase tracking-widest text-pinkBrand-600 font-semibold mb-2">Телефон</label>
+            <input id="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 7__ ___ __ __"
+              class="w-full border border-pinkBrand-200 focus:border-pinkBrand-500 rounded-2xl px-4 py-3 text-sm transition">
+          </div>
+        </div>
+
+        <p id="form-error" class="hidden rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3"></p>
+
+        <button type="submit" class="w-full bg-[#25D366] hover:bg-[#1ebe5b] text-white font-semibold tracking-wide py-4 rounded-full shadow-lg shadow-green-200 transition active:scale-[.98] flex items-center justify-center gap-3">
+          <i class="fa-brands fa-whatsapp text-2xl"></i> Отправить предзаказ в WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<div id="added-toast" role="status" aria-live="polite" class="fixed bottom-20 md:bottom-6 left-1/2 z-[60] w-[min(92vw,410px)] overflow-hidden rounded-2xl bg-[#3c2630] text-white shadow-2xl">
+  <div class="flex items-center gap-3 p-4">
+    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pinkBrand-500 text-xl"><i class="fa-solid fa-check"></i></span>
+    <div class="min-w-0 flex-1">
+      <p class="text-xs font-semibold uppercase tracking-widest text-pinkBrand-200">Добавлено в корзину</p>
+      <p id="added-toast-name" class="truncate font-semibold"></p>
+    </div>
+    <a href="#order" class="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-bold text-pinkBrand-800 hover:bg-pinkBrand-100">В корзину</a>
+  </div>
+  <div class="h-1 bg-white/10"><div class="toast-progress h-full origin-left bg-pinkBrand-400"></div></div>
+</div>
+
+<footer class="hidden md:block text-center text-sm text-pinkBrand-700 py-8 border-t border-pinkBrand-100">
+  © Сластёна · Складская, рынок Алем 7а, бутик 26 · Вт–Вск 8:30–17:00
+</footer>
+
+<!-- Нижняя навигация (мобильная) -->
+<nav class="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-t border-pinkBrand-200 pb-safe shadow-[0_-8px_30px_-12px_rgba(172,65,96,.3)]">
+  <div class="grid grid-cols-3 h-16">
+    <a data-nav="home" href="#home" class="nav-link flex flex-col items-center justify-center gap-1 text-[11px] font-semibold transition">
+      <i class="fa-solid fa-house text-lg"></i>Главная
+    </a>
+    <a data-nav="catalog" href="#catalog" class="nav-link flex flex-col items-center justify-center gap-1 text-[11px] font-semibold transition">
+      <i class="fa-solid fa-cookie-bite text-lg"></i>Каталог
+    </a>
+    <a data-nav="order" href="#order" class="nav-link flex flex-col items-center justify-center gap-1 text-[11px] font-semibold transition">
+      <span class="relative">
+        <i class="fa-solid fa-bag-shopping text-lg"></i>
+        <span class="cart-badge hidden absolute -top-2 -right-3 bg-pinkBrand-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 items-center justify-center"></span>
+      </span>Предзаказ
+    </a>
+  </div>
+</nav>
+
+<script>
+(() => {
+  const WA_NUMBER = '77087474007';
+  const ADDRESS = 'Складская, рынок Алем 7а, бутик 26';
+  const img = id => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=500&q=70`;
+
+  // Товары. Фото — Unsplash (тематические); при недоступности показывается иконка-заглушка.
+  const PRODUCTS = [
+    { id:1,  cat:'bars',   name:'Snickers',            desc:'Батончик с арахисом, карамелью и нугой в молочном шоколаде, 50 г',      price:350,  img:img('photo-1604480132736-44c188fe4d20') },
+    { id:2,  cat:'bars',   name:'Twix',                desc:'Хрустящее песочное печенье с карамелью в молочном шоколаде, 55 г',       price:350,  img:img('photo-1621939514649-280e2ee25f60') },
+    { id:3,  cat:'bars',   name:'Bounty',              desc:'Нежная кокосовая начинка в молочном шоколаде, 57 г',                      price:350,  img:img('photo-1599599810769-bcde5a160d32') },
+    { id:4,  cat:'bars',   name:'Mars',                desc:'Нуга и карамель в молочном шоколаде, 51 г',                               price:350,  img:img('photo-1511381939415-e44015466834') },
+    { id:5,  cat:'bars',   name:'KitKat',              desc:'Хрустящая вафля в молочном шоколаде, 4 пальчика, 41,5 г',                 price:300,  img:img('photo-1575377427642-087cf684f29d') },
+    { id:6,  cat:'bars',   name:'Milky Way',           desc:'Воздушная нуга с карамелью в молочном шоколаде, 26 г',                    price:250,  img:img('photo-1582058091505-f87a2e55a40f') },
+    { id:7,  cat:'choc',   name:'Milka Молочный',      desc:'Альпийский молочный шоколад, нежный и сливочный, 90 г',                    price:1100, img:img('photo-1549007994-cb92caebd54b') },
+    { id:8,  cat:'choc',   name:'Milka Oreo',          desc:'Молочный шоколад с кусочками печенья Oreo и ванильной начинкой, 92 г',     price:1200, img:img('photo-1481391319762-47dff72954d9') },
+    { id:9,  cat:'choc',   name:'Ritter Sport Лесной орех', desc:'Молочный шоколад с цельным обжаренным фундуком, 100 г',               price:1500, img:img('photo-1606312619070-d48b4c652a52') },
+    { id:10, cat:'choc',   name:'Ritter Sport Марципан', desc:'Тёмный шоколад с марципановой начинкой, 100 г',                         price:1500, img:img('photo-1511381939415-e44015466834') },
+    { id:11, cat:'choc',   name:'Alpen Gold',          desc:'Молочный шоколад с миндалём и лесным орехом, 85 г',                        price:700,  img:img('photo-1548907040-4baa42d10919') },
+    { id:12, cat:'choc',   name:'Lindt Excellence 70%', desc:'Горький шоколад с насыщенным какао-вкусом, 100 г',                        price:2200, img:img('photo-1606312619344-3e4a8b3d2ec1') },
+    { id:13, cat:'candy',  name:'Raffaello',           desc:'Кокосово-миндальные конфеты с кремовой начинкой, 150 г',                   price:3200, img:img('photo-1587132137056-bfbf0166836e') },
+    { id:14, cat:'candy',  name:'Ferrero Rocher',      desc:'Хрустящая вафля, лесной орех и шоколадный крем, 16 шт.',                    price:5500, img:img('photo-1548907040-4baa42d10919') },
+    { id:15, cat:'candy',  name:'Merci',               desc:'Ассорти шоколадных конфет, 250 г',                                          price:3800, img:img('photo-1582176604856-e824b4736522') },
+    { id:16, cat:'candy',  name:'Kinder Chocolate',    desc:'Молочный шоколад с молочной начинкой, 8 батончиков, 100 г',                 price:1600, img:img('photo-1558961363-fa8fdf82db35') },
+    { id:17, cat:'jelly',  name:'Haribo Золотые мишки', desc:'Фруктовый жевательный мармелад в форме мишек, 140 г',                      price:900,  img:img('photo-1582058091505-f87a2e55a40f') },
+    { id:18, cat:'jelly',  name:'Haribo Кольца',       desc:'Мармеладные кольца с фруктовым вкусом, 140 г',                              price:900,  img:img('photo-1575224300306-1b8da36134ec') },
+    { id:19, cat:'jelly',  name:'Мармелад Ассорти',    desc:'Яркие фруктовые мармеладные дольки и червячки, 200 г',                      price:1000, img:img('photo-1499195333224-3ce974eecb47') },
+    { id:20, cat:'jelly',  name:'Маршмеллоу',          desc:'Воздушная зефирная сладость, нежная и сладкая, 150 г',                      price:800,  img:img('photo-1560683346-4a1a6ca1f8c3') }
+  ];
+  const CATS = [
+    { key:'all', label:'Все' }, { key:'bars', label:'Батончики' }, { key:'choc', label:'Шоколад' },
+    { key:'candy', label:'Конфеты' }, { key:'jelly', label:'Желейные' }
+  ];
+  const ICONS = { bars:'fa-cookie-bite', choc:'fa-chess-board', candy:'fa-candy-cane', jelly:'fa-bears' };
+  ICONS.jelly = 'fa-heart';
+
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const fmt = n => n.toLocaleString('ru-RU') + ' ₸';
+
+  // ---------- Состояние ----------
+  let cart = {};
+  try { cart = JSON.parse(localStorage.getItem('slastena_cart') || '{}'); } catch (e) {}
+  cart = Object.fromEntries(Object.entries(cart).filter(([id, q]) => PRODUCTS.some(p => p.id == id) && q > 0));
+  let category = 'all', query = '', method = 'pickup';
+  let toastTimer;
+
+  const save = () => { try { localStorage.setItem('slastena_cart', JSON.stringify(cart)); } catch (e) {} };
+  const count = () => Object.values(cart).reduce((a, b) => a + b, 0);
+  const total = () => Object.entries(cart).reduce((s, [id, q]) => s + PRODUCTS.find(p => p.id == id).price * q, 0);
+
+  // ---------- Навигация ----------
+  const SECTIONS = ['home', 'catalog', 'order'];
+
+  function setActiveNav(sec) {
+    activeSection = sec;
+    $$('.nav-link').forEach(a => {
+      const on = a.dataset.nav === sec;
+      a.classList.toggle('text-pinkBrand-600', on);
+      a.classList.toggle('text-pinkBrand-900/60', !on);
+      a.classList.toggle('font-bold', on);
+    });
+  }
+
+  let activeSection = location.hash.slice(1) || 'home';
+
+  // Плавная прокрутка по клику на любую якорную ссылку на секцию
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (!target || !SECTIONS.includes(target.id)) return;
+    const fromHomeToCatalog = activeSection === 'home' && target.id === 'catalog';
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', '#' + target.id);
+    if (fromHomeToCatalog) {
+      let played = false;
+      const playArrival = () => {
+        if (played) return;
+        played = true;
+        target.classList.remove('section-arrive');
+        void target.offsetWidth;
+        target.classList.add('section-arrive');
+        setTimeout(() => target.classList.remove('section-arrive'), 750);
+      };
+      target.addEventListener('animationend', () => target.classList.remove('section-arrive'), { once: true });
+      window.addEventListener('scrollend', playArrival, { once: true });
+      setTimeout(playArrival, 800);
+    }
+  });
+
+  // Подсветка текущего раздела при прокрутке
+  let spyQueued = false;
+  function spy() {
+    spyQueued = false;
+    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+    let current = SECTIONS[0];
+    if (atBottom) current = SECTIONS[SECTIONS.length - 1];
+    else for (const id of SECTIONS) {
+      if (document.getElementById(id).getBoundingClientRect().top <= window.innerHeight * 0.35) current = id;
+    }
+    setActiveNav(current);
+  }
+  window.addEventListener('scroll', () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
+
+  // ---------- Каталог ----------
+  function renderFilters() {
+    $('#filters').innerHTML = CATS.map(c => `
+      <button data-cat="${c.key}" class="shrink-0 px-5 py-2 rounded-full text-sm font-semibold border transition
+        ${c.key === category ? 'bg-pinkBrand-600 text-white border-pinkBrand-600 shadow' : 'bg-white text-pinkBrand-800 border-pinkBrand-200 hover:border-pinkBrand-400'}">${c.label}</button>`).join('');
+  }
+
+  function controls(id) {
+    const q = cart[id] || 0;
+    if (!q) return `<button data-add="${id}" class="w-full bg-pinkBrand-100 hover:bg-pinkBrand-600 hover:text-white text-pinkBrand-700 font-semibold text-sm py-2.5 rounded-full transition active:scale-95"><i class="fa-solid fa-plus mr-1.5 text-xs"></i>В корзину</button>`;
+    return `<div class="flex items-center justify-between bg-pinkBrand-600 text-white rounded-full p-1">
+      <button data-dec="${id}" aria-label="Убавить" class="w-9 h-9 rounded-full hover:bg-pinkBrand-700 transition active:scale-90"><i class="fa-solid fa-minus text-xs"></i></button>
+      <span class="font-bold text-sm">${q}</span>
+      <button data-add="${id}" aria-label="Добавить" class="w-9 h-9 rounded-full hover:bg-pinkBrand-700 transition active:scale-90"><i class="fa-solid fa-plus text-xs"></i></button>
+    </div>`;
+  }
+
+  function renderGrid() {
+    const q = query.trim().toLowerCase();
+    const list = PRODUCTS.filter(p =>
+      (category === 'all' || p.cat === category) &&
+      (!q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)));
+    $('#empty').classList.toggle('hidden', list.length > 0);
+    $('#grid').innerHTML = list.map(p => `
+      <article class="bg-white rounded-3xl overflow-hidden border border-pinkBrand-100 shadow-[0_8px_30px_-14px_rgba(172,65,96,.35)] flex flex-col">
+        <div class="relative aspect-square bg-gradient-to-br from-pinkBrand-100 to-cream-200 flex items-center justify-center">
+          <i class="fa-solid ${ICONS[p.cat]} text-4xl text-pinkBrand-300"></i>
+          <img src="${p.img}" alt="${p.name}" loading="lazy" class="absolute inset-0 w-full h-full object-cover" onerror="this.remove()">
+        </div>
+        <div class="p-3 sm:p-4 flex flex-col flex-1">
+          <h3 class="font-serif text-lg sm:text-xl font-bold leading-tight text-pinkBrand-900">${p.name}</h3>
+          <p class="text-[11px] sm:text-xs text-[#2d1b22]/70 mt-1 mb-3 flex-1 leading-snug">${p.desc}</p>
+          <p class="font-bold text-pinkBrand-700 mb-2.5">${fmt(p.price)}</p>
+          <div data-ctl="${p.id}">${controls(p.id)}</div>
+        </div>
+      </article>`).join('');
+  }
+
+  function updateCard(id) {
+    const el = document.querySelector(`[data-ctl="${id}"]`);
+    if (el) {
+      el.innerHTML = controls(id);
+      el.classList.remove('is-changing');
+      void el.offsetWidth;
+      el.classList.add('is-changing');
+    }
+  }
+
+  function updateBadge() {
+    const n = count();
+    $$('.cart-badge').forEach(b => {
+      b.textContent = n;
+      b.classList.toggle('hidden', n === 0);
+      b.classList.toggle('flex', n > 0);
+      b.classList.remove('badge-pop'); void b.offsetWidth; b.classList.add('badge-pop');
+    });
+  }
+
+  function change(id, d) {
+    id = +id;
+    const q = Math.max(0, (cart[id] || 0) + d);
+    if (q) cart[id] = q; else delete cart[id];
+    save(); updateBadge(); updateCard(id);
+    if (d > 0) {
+      const product = PRODUCTS.find(p => p.id === id);
+      const card = document.querySelector(`[data-ctl="${id}"]`)?.closest('article');
+      if (card) {
+        card.classList.remove('just-added');
+        card.classList.add('just-added');
+        setTimeout(() => card.classList.remove('just-added'), 850);
+      }
+      showAdded(product, q);
+    }
+    renderCart();
+  }
+
+  function showAdded(product, quantity) {
+    const toast = $('#added-toast');
+    $('#added-toast-name').textContent = `${product.name} · ${quantity} шт.`;
+    const progress = toast.querySelector('.toast-progress');
+    progress.style.animation = 'none';
+    void progress.offsetWidth;
+    progress.style.animation = '';
+    toast.classList.remove('is-visible');
+    void toast.offsetWidth;
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 3600);
+  }
+
+  $('#search').addEventListener('input', e => { query = e.target.value; renderGrid(); });
+  $('#filters').addEventListener('click', e => {
+    const b = e.target.closest('[data-cat]'); if (!b) return;
+    category = b.dataset.cat; renderFilters(); renderGrid();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-add]'), d = e.target.closest('[data-dec]');
+    if (a) change(a.dataset.add, 1);
+    else if (d) change(d.dataset.dec, -1);
+  });
+
+  // ---------- Корзина / предзаказ ----------
+  function renderCart() {
+    const items = Object.entries(cart).map(([id, q]) => ({ p: PRODUCTS.find(p => p.id == id), q }));
+    $('#cart-empty').classList.toggle('hidden', items.length > 0);
+    $('#cart-total-wrap').classList.toggle('hidden', items.length === 0);
+    $('#cart-total-wrap').classList.toggle('flex', items.length > 0);
+    $('#cart-total').textContent = fmt(total());
+    $('#cart-total').classList.remove('total-pop');
+    void $('#cart-total').offsetWidth;
+    $('#cart-total').classList.add('total-pop');
+    $('#cart-list').innerHTML = items.map(({ p, q }) => `
+      <div class="py-3 flex items-center gap-3">
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-sm truncate">${p.name}</p>
+          <p class="text-xs text-pinkBrand-600">${fmt(p.price)} × ${q} = <b>${fmt(p.price * q)}</b></p>
+        </div>
+        <div class="flex items-center gap-2 bg-pinkBrand-50 rounded-full p-1 border border-pinkBrand-100">
+          <button data-dec="${p.id}" aria-label="Убавить" class="w-7 h-7 rounded-full bg-white text-pinkBrand-700 shadow-sm"><i class="fa-solid fa-minus text-[10px]"></i></button>
+          <span class="text-sm font-bold w-4 text-center">${q}</span>
+          <button data-add="${p.id}" aria-label="Добавить" class="w-7 h-7 rounded-full bg-pinkBrand-600 text-white shadow-sm"><i class="fa-solid fa-plus text-[10px]"></i></button>
+        </div>
+      </div>`).join('');
+  }
+
+  function fillTimes() {
+    const sel = $('#time');
+    if (method === 'delivery') {
+      sel.innerHTML = '<option value="18:00 – 19:00">18:00 – 19:00 (фиксировано)</option>';
+      sel.disabled = true; return;
+    }
+    sel.disabled = false;
+    const dateVal = $('#date').value, now = new Date();
+    const isToday = dateVal === isoDate(now);
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    let html = '';
+    for (let m = 8 * 60 + 30; m <= 17 * 60; m += 30) {
+      if (isToday && m <= nowMin) continue;
+      const t = `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`;
+      html += `<option value="${t}">${t}</option>`;
+    }
+    sel.innerHTML = html || '<option value="">На сегодня время вышло</option>';
+  }
+
+  const isoDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  function setMethod(m) {
+    method = m;
+    $$('.method-btn').forEach(b => {
+      const on = b.dataset.method === m;
+      b.className = 'method-btn rounded-full py-3 text-sm font-semibold transition ' +
+        (on ? 'bg-pinkBrand-600 text-white shadow' : 'text-pinkBrand-800 hover:bg-pinkBrand-100');
+    });
+    $('#pickup-info').classList.toggle('hidden', m !== 'pickup');
+    $('#delivery-block').classList.toggle('hidden', m !== 'delivery');
+    fillTimes();
+  }
+  $$('.method-btn').forEach(b => b.addEventListener('click', () => setMethod(b.dataset.method)));
+  $('#date').addEventListener('change', fillTimes);
+
+  (function initDate() {
+    const d = new Date();
+    $('#date').min = isoDate(d);
+    $('#date').value = isoDate(d);
+  })();
+
+  function showError(msg) {
+    const e = $('#form-error');
+    e.textContent = msg; e.classList.remove('hidden');
+    e.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  $('#order-form').addEventListener('submit', ev => {
+    ev.preventDefault();
+    $('#form-error').classList.add('hidden');
+    const name = $('#name').value.trim(), phone = $('#phone').value.trim(),
+          address = $('#address').value.trim(), date = $('#date').value, time = $('#time').value;
+
+    if (!count()) return showError('Корзина пуста — добавьте товары из каталога.');
+    if (method === 'delivery' && !address) return showError('Укажите адрес доставки.');
+    if (!date) return showError('Выберите дату.');
+    const [y, mo, d] = date.split('-').map(Number);
+    const dt = new Date(y, mo - 1, d);
+    if (dt.getDay() === 1) return showError('Понедельник — выходной. Пожалуйста, выберите другой день.');
+    if (!time) return showError('Выберите время получения.');
+    if (!name) return showError('Укажите ваше имя.');
+    if (phone.replace(/\D/g, '').length < 10) return showError('Укажите корректный номер телефона.');
+
+    const rows = Object.entries(cart).map(([id, q], i) => {
+      const p = PRODUCTS.find(p => p.id == id);
+      return `${i + 1}. ${p.name} — ${q} шт × ${p.price.toLocaleString('ru-RU')} = ${(p.price * q).toLocaleString('ru-RU')} ₸`;
+    });
+    const dateStr = dt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', weekday: 'long' });
+    const lines = [
+      '🍬 *ПРЕДЗАКАЗ · СЛАСТЁНА* 🍬',
+      '━━━━━━━━━━━━━━━',
+      '🛒 *Состав заказа:*',
+      ...rows,
+      '━━━━━━━━━━━━━━━',
+      `💰 *ИТОГО: ${total().toLocaleString('ru-RU')} ₸*`,
+      '━━━━━━━━━━━━━━━',
+      `👤 Имя: ${name}`,
+      `📞 Телефон: ${phone}`,
+      method === 'pickup' ? '🏪 Получение: *Самовывоз*' : '🚚 Получение: *Доставка*',
+      method === 'pickup' ? `📍 Адрес бутика: ${ADDRESS}` : `📍 Адрес доставки: ${address}`,
+      `📅 Дата: ${dateStr}`,
+      `⏰ Время: ${time}`
+    ];
+    window.location.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+  });
+
+  // ---------- Старт ----------
+  renderFilters(); renderGrid(); setMethod('pickup'); updateBadge(); renderCart(); spy();
+})();
+</script>
+</body>
+</html>
